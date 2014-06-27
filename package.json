@@ -1,0 +1,23 @@
+{
+  "name": "youtube-music-stripper",
+  "version": "1.0.0",
+  "description": "Download your favorite music videos as plain music files so that you can add them to your music collection",
+  "main": "youtube-music-stripper.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/trizko/2014-10-solo.git"
+  },
+  "author": "Tony Rizko",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/trizko/2014-10-solo/issues"
+  },
+  "homepage": "https://github.com/trizko/2014-10-solo",
+  "dependencies": {
+    "express": "^4.10.4",
+    "express-handlebars": "^1.1.0"
+  }
+}
