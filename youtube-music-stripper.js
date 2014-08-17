@@ -16,6 +16,10 @@ app.get('/', function(req, res){
   res.render('home');
 });
 
+app.post('/download', function(req, res){
+  res.download(__dirname + '/public/img/tube-stripper-logo.png', 'tube-stripper-logo.png');
+});
+
 app.use(function(req, res){
   res.status(404);
   res.render('404');
