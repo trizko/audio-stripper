@@ -1,4 +1,5 @@
 var express = require('express');
+var exec = require('child_process').exec;
 var handlebars = require('express-handlebars')
   .create({ defaultLayout: 'main' });
 
@@ -17,7 +18,27 @@ app.get('/', function(req, res){
 });
 
 app.post('/download', function(req, res){
-  res.download(__dirname + '/public/img/tube-stripper-logo.png', 'tube-stripper-logo.png');
+  var filename = '';
+  exec('youtube-dl --get-filename https://www.youtube.com/watch?v=jgrDsO_aRFo', function(error, stdout, stderr){
+    if(error){
+      console.error('ERROR:',stderr);
+    } else {
+      console.log('stdout:',stdout);
+      filename = stdout.replace('\n', '');
+      exec('youtube-dl https://www.youtube.com/watch?v=jgrDsO_aRFo', function(error, stdout, stderr){
+        if(error){
+          console.error('ERROR:', stderr);
+        } else {
+          var filepath = __dirname + '/' + filename;
+          res.download(filepath, filename, function(error){
+            if(error) {
+              console.error(err);
+            }
+          });
+        }
+      });
+    }
+  });
 });
 
 app.use(function(req, res){
