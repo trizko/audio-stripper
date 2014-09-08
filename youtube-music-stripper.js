@@ -21,18 +21,25 @@ app.post('/download', function(req, res){
   var filename = '';
   exec('youtube-dl --get-filename https://www.youtube.com/watch?v=jgrDsO_aRFo', function(error, stdout, stderr){
     if(error){
-      console.error('ERROR:',stderr);
+      console.error('ERROR1:',stderr);
     } else {
-      console.log('stdout:',stdout);
       filename = stdout.replace('\n', '');
       exec('youtube-dl https://www.youtube.com/watch?v=jgrDsO_aRFo', function(error, stdout, stderr){
         if(error){
-          console.error('ERROR:', stderr);
+          console.error('ERROR2:', stderr);
         } else {
           var filepath = __dirname + '/' + filename;
-          res.download(filepath, filename, function(error){
-            if(error) {
-              console.error(err);
+          var musicFilename = filename.split('.')[0] + '.mp3';
+          var musicFilepath = __dirname + '/' + musicFilename;
+          exec('ffmpeg -i ' + filename.replace(/ /g, '\\ ') + ' -vn ' + musicFilename.replace(/ /g, '\\ '), function(error, stdout, stderr){
+            if(error){
+              console.error('ERROR3:',stderr);
+            } else {
+              res.download(musicFilepath, musicFilename, function(error){
+                if(error) {
+                  console.error(err);
+                }
+              });
             }
           });
         }
