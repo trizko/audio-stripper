@@ -1,4 +1,5 @@
 var express = require('express');
+var bodyParser = require('body-parser');
 var exec = require('child_process').exec;
 var handlebars = require('express-handlebars')
   .create({ defaultLayout: 'main' });
@@ -9,6 +10,9 @@ var app = express();
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 
+//setup body-parser to get data from forms
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.set('port', process.env.PORT || 3000);
 
 app.use(express.static(__dirname + '/public'));
@@ -18,13 +22,14 @@ app.get('/', function(req, res){
 });
 
 app.post('/download', function(req, res){
+  var url = req.body.url;
   var filename = '';
-  exec('youtube-dl --get-filename https://www.youtube.com/watch?v=jgrDsO_aRFo', function(error, stdout, stderr){
+  exec('youtube-dl --get-filename ' + url, function(error, stdout, stderr){
     if(error){
       console.error('ERROR1:',stderr);
     } else {
       filename = stdout.replace('\n', '');
-      exec('youtube-dl https://www.youtube.com/watch?v=jgrDsO_aRFo', function(error, stdout, stderr){
+      exec('youtube-dl ' + url, function(error, stdout, stderr){
         if(error){
           console.error('ERROR2:', stderr);
         } else {
@@ -39,6 +44,11 @@ app.post('/download', function(req, res){
                 if(error) {
                   console.error(err);
                 }
+                exec('rm -rf ' + filename.replace(/ /g, '\\ ') + ' ' + musicFilename.replace(/ /g, '\\ '), function(error, stdout, stderr){
+                  if(error){
+                    console.error(error);
+                  }
+                });
               });
             }
           });
