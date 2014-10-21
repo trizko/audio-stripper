@@ -36,7 +36,7 @@ app.post('/download', function(req, res){
           var filepath = __dirname + '/' + filename;
           var musicFilename = filename.split('.')[0] + '.mp3';
           var musicFilepath = __dirname + '/' + musicFilename;
-          exec('avconv -i ' + filename.replace(/ /g, '\\ ').replace(/\'/g, '\\\'') + ' -vn -c:a copy ' + musicFilename.replace(/ /g, '\\ ').replace(/\'/g,'\\\''), function(error, stdout, stderr){
+          exec('ffmpeg -i ' + filename.replace(/ /g, '\\ ').replace(/\'/g, '\\\'') + ' -vn ' + musicFilename.replace(/ /g, '\\ ').replace(/\'/g,'\\\''), function(error, stdout, stderr){
             if(error){
               console.error('ERROR3:',stderr);
             } else {
