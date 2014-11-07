@@ -13,7 +13,7 @@ app.set('view engine', 'handlebars');
 //setup body-parser to get data from forms
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 80);
 
 app.use(express.static(__dirname + '/public'));
 
@@ -36,7 +36,7 @@ app.post('/download', function(req, res){
           var filepath = __dirname + '/' + filename;
           var musicFilename = filename.split('.')[0] + '.mp3';
           var musicFilepath = __dirname + '/' + musicFilename;
-          exec('ffmpeg -i ' + filename.replace(/ /g, '\\ ').replace(/\'/g, '\\\'') + ' -vn ' + musicFilename.replace(/ /g, '\\ ').replace(/\'/g,'\\\''), function(error, stdout, stderr){
+          exec('ffmpeg -i ' + filename.replace(/ /g, '\\ ').replace(/\'/g, '\\\'').replace(/\(/g, '\\(').replace(/\)/g, '\\)') + ' -vn ' + musicFilename.replace(/ /g, '\\ ').replace(/\'/g,'\\\'').replace(/\(/g, '\\(').replace(/\)/g, '\\)'), function(error, stdout, stderr){
             if(error){
               console.error('ERROR3:',stderr);
             } else {
@@ -44,7 +44,7 @@ app.post('/download', function(req, res){
                 if(error) {
                   console.error(err);
                 }
-                exec('rm -rf ' + filename.replace(/ /g, '\\ ') + ' ' + musicFilename.replace(/ /g, '\\ '), function(error, stdout, stderr){
+                exec('rm -rf ' + filename.replace(/ /g, '\\ ').replace(/\(/g, '\\(').replace(/\)/g, '\\)') + ' ' + musicFilename.replace(/ /g, '\\ ').replace(/\(/g, '\\(').replace(/\)/g, '\\)'), function(error, stdout, stderr){
                   if(error){
                     console.error(error);
                   }
