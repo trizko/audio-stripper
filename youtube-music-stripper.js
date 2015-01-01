@@ -13,7 +13,7 @@ app.set('view engine', 'handlebars');
 //setup body-parser to get data from forms
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.set('port', process.env.PORT || 80);
+app.set('port', process.env.PORT || 3000);
 
 app.use(express.static(__dirname + '/public'));
 
@@ -44,7 +44,7 @@ app.post('/download', function(req, res){
                 if(error) {
                   console.error(err);
                 }
-                exec('rm -rf ' + filename.replace(/ /g, '\\ ').replace(/\(/g, '\\(').replace(/\)/g, '\\)') + ' ' + musicFilename.replace(/ /g, '\\ ').replace(/\(/g, '\\(').replace(/\)/g, '\\)'), function(error, stdout, stderr){
+                exec('rm -rf ' + filename.replace(/ /g, '\\ ').replace(/\(/g, '\\(').replace(/\)/g, '\\)').replace(/\'/g,'\\\'') + ' ' + musicFilename.replace(/ /g, '\\ ').replace(/\(/g, '\\(').replace(/\)/g, '\\)').replace(/\'/g,'\\\''), function(error, stdout, stderr){
                   if(error){
                     console.error(error);
                   }
