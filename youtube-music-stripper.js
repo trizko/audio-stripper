@@ -29,14 +29,25 @@ app.post('/download', function(req, res){
       console.error('ERROR1:',stderr);
     } else {
       filename = stdout.replace('\n', '');
+      filename_terminal = filename.replace(/ /g, '\\ ')
+                                  .replace(/\'/g, '\\\'')
+                                  .replace(/\(/g, '\\(')
+                                  .replace(/\)/g, '\\)')
+                                  .replace(/\&/g, '\\&');
       exec('youtube-dl ' + url, function(error, stdout, stderr){
         if(error){
           console.error('ERROR2:', stderr);
         } else {
           var filepath = __dirname + '/' + filename;
           var musicFilename = filename.split('.')[0] + '.mp3';
+          var musicFilename_terminal = musicFilename.replace('\n', '')
+                                                    .replace(/ /g, '\\ ')
+                                                    .replace(/\'/g, '\\\'')
+                                                    .replace(/\(/g, '\\(')
+                                                    .replace(/\)/g, '\\)')
+                                                    .replace(/\&/g, '\\&');
           var musicFilepath = __dirname + '/' + musicFilename;
-          exec('ffmpeg -i ' + filename.replace(/ /g, '\\ ').replace(/\'/g, '\\\'').replace(/\(/g, '\\(').replace(/\)/g, '\\)') + ' -vn ' + musicFilename.replace(/ /g, '\\ ').replace(/\'/g,'\\\'').replace(/\(/g, '\\(').replace(/\)/g, '\\)'), function(error, stdout, stderr){
+          exec('ffmpeg -i ' + filename_terminal + ' -vn ' + musicFilename_terminal, function(error, stdout, stderr){
             if(error){
               console.error('ERROR3:',stderr);
             } else {
@@ -44,7 +55,7 @@ app.post('/download', function(req, res){
                 if(error) {
                   console.error(err);
                 }
-                exec('rm -rf ' + filename.replace(/ /g, '\\ ').replace(/\(/g, '\\(').replace(/\)/g, '\\)').replace(/\'/g,'\\\'') + ' ' + musicFilename.replace(/ /g, '\\ ').replace(/\(/g, '\\(').replace(/\)/g, '\\)').replace(/\'/g,'\\\''), function(error, stdout, stderr){
+                exec('rm -rf ' + filename_terminal + ' ' + musicFilename_terminal, function(error, stdout, stderr){
                   if(error){
                     console.error(error);
                   }
