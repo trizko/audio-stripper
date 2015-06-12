@@ -11,4 +11,4 @@ COPY    . /src
 WORKDIR /src
 RUN     npm install
 EXPOSE  3000 
-CMD     ["node", "youtube-music-stripper.js"]
+CMD     ["npm", "start"]
