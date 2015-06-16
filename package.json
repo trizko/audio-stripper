@@ -1,21 +1,21 @@
 {
-  "name": "youtube-music-stripper",
+  "name": "audio-stripper",
   "version": "1.0.0",
   "description": "Download your favorite music videos as plain music files so that you can add them to your music collection",
-  "main": "youtube-music-stripper.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/trizko/2014-10-solo.git"
+    "url": "https://github.com/trizko/audio-stripper.git"
   },
   "author": "Tony Rizko",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/trizko/2014-10-solo/issues"
+    "url": "https://github.com/trizko/audio-stripper/issues"
   },
-  "homepage": "https://github.com/trizko/2014-10-solo",
+  "homepage": "https://github.com/trizko/audio-stripper",
   "dependencies": {
     "bluebird": "^2.9.27",
     "body-parser": "^1.9.3",
