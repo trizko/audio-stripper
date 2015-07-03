@@ -1,47 +1,36 @@
 var exec = require('../helper/execPromise');
-var Formatter = require('../helper/formatter.js');
-var Promise = require('bluebird');
+var download = require('../helper/downloadPromise');
+var FileNames = require('../models/FileNames.js');
 
 var DownloadController = function() {};
 
-DownloadController.download = function(req, res){
-  var url = req.body.url;
+DownloadController.download = function(request, response){
+  var url = request.body.url;
 
-  var filename = '';
-  var filename_terminal = '';
-  var musicFilepath = '';
-  var musicFilename = '';
-  var musicFilename_terminal = '';
+  var filenames = new FileNames();
 
   exec('youtube-dl --get-filename ' + url).then(function (stdout) {
 
-    filename = stdout.replace('\n', '');
-    filename_terminal = Formatter.terminalFriendly(filename);
+    filenames.construct(stdout);
 
     return exec('youtube-dl ' + url);
 
   }).then(function(stdout){
 
-    filepath = process.cwd() + '/' + filename;
-    musicFilename = filename.split('.')[0] + '.mp3';
-    musicFilename_terminal = Formatter.terminalFriendly(musicFilename);
-    musicFilepath = process.cwd() + '/' + musicFilename;
-
-    return exec('ffmpeg -i ' + filename_terminal + ' -vn ' + musicFilename_terminal);
+    return exec('ffmpeg -i ' + filenames.filename_terminal + ' -vn ' + filenames.musicFilename_terminal);
 
   }).then(function(stdout){
-    return new Promise(function(resolve, reject){
-      res.download(musicFilepath, musicFilename, function(error){
-        if(error) {
-          return reject(error);
-        }
-        resolve();
-      });
-    });
+
+    return download(response, filenames.musicFilepath, filenames.musicFilename);
+
   }).then(function(stdout){
-    return exec('rm -rf ' + filename_terminal + ' ' + musicFilename_terminal);
+
+    return exec('rm -rf ' + filenames.filename_terminal + ' ' + filenames.musicFilename_terminal);
+
   }).catch(function(error){
+
     throw error;
+
   });
 };
 
