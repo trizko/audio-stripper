@@ -4,7 +4,7 @@
   "description": "Download your favorite music videos as plain music files so that you can add them to your music collection",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "docker build -t trizko/audio-stripper . && docker run -p 3000:3000 trizko/audio-stripper"
   },
   "repository": {
     "type": "git",
