@@ -1,7 +1,7 @@
 {
   "name": "audio-stripper",
   "version": "1.0.0",
-  "description": "Download your favorite music videos as plain music files so that you can add them to your music collection",
+  "description": "Downloads videos and sends them back to client as audio files.",
   "main": "server.js",
   "scripts": {
     "start": "docker build -t trizko/audio-stripper . && docker run -p 3000:3000 trizko/audio-stripper"

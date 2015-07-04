@@ -7,8 +7,16 @@ RUN     apt-get update -y && \
         apt-add-repository ppa:kirillshkrogalev/ffmpeg-next && \
         apt-get update -y && \
         apt-get install -y nodejs ffmpeg youtube-dl
-COPY    . /src
+
+COPY    package.json /tmp/package.json
+RUN     cd /tmp && \
+        npm install && \
+        mkdir -p /src && \
+        cp -a /tmp/node_modules /src/
+
 WORKDIR /src
-RUN     npm install
+COPY    . /src
+
 EXPOSE  3000
+
 CMD     ["node", "server"]
