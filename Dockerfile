@@ -10,7 +10,7 @@ RUN     apt-get update -y && \
 
 COPY    package.json /tmp/package.json
 RUN     cd /tmp && \
-        npm install && \
+        npm install --production && \
         mkdir -p /src && \
         cp -a /tmp/node_modules /src/
 
