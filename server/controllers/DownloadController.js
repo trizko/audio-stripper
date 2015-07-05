@@ -1,31 +1,31 @@
 var exec = require('../helper/execPromise');
 var download = require('../helper/downloadPromise');
-var FileNames = require('../models/FileNames.js');
+var File = require('../models/File.js');
 
 var DownloadController = function() {};
 
 DownloadController.download = function(request, response){
   var url = request.body.url;
 
-  var filenames = new FileNames();
+  var file = new File();
 
   exec('youtube-dl --get-filename ' + url).then(function (stdout) {
 
-    filenames.construct(stdout);
+    file.construct(stdout);
 
     return exec('youtube-dl ' + url);
 
   }).then(function(stdout){
 
-    return exec('ffmpeg -i ' + filenames.filename_terminal + ' -vn ' + filenames.musicFilename_terminal);
+    return exec('ffmpeg -i ' + file.filename_terminal + ' -vn ' + file.musicFilename_terminal);
 
   }).then(function(stdout){
 
-    return download(response, filenames.musicFilepath, filenames.musicFilename);
+    return download(response, file.musicFilepath, file.musicFilename);
 
   }).then(function(stdout){
 
-    return exec('rm -rf ' + filenames.filename_terminal + ' ' + filenames.musicFilename_terminal);
+    return exec('rm -rf ' + file.filename_terminal + ' ' + file.musicFilename_terminal);
 
   }).catch(function(error){
 

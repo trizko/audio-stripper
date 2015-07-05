@@ -1,7 +1,7 @@
 var Formatter = require('../helper/formatter.js');
 
 
-var FileNames = function () {
+var File = function () {
   this.filename = '';
   this.filename_terminal = '';
   this.filepath = '';
@@ -10,7 +10,7 @@ var FileNames = function () {
   this.musicFilename_terminal = '';
 };
 
-FileNames.prototype.construct = function (stdout) {
+File.prototype.construct = function (stdout) {
   this.filename = stdout.replace('\n', '');
   this.filename_terminal = Formatter.terminalFriendly(this.filename);
   this.filepath = process.cwd() + '/' + this.filename;
@@ -21,4 +21,4 @@ FileNames.prototype.construct = function (stdout) {
 
 };
 
-module.exports = FileNames
+module.exports = File
