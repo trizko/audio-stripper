@@ -1,4 +1,4 @@
-var Formatter = require('../helper/formatter.js');
+var Formatter = require('../helpers/formatter.js');
 
 
 var File = function () {

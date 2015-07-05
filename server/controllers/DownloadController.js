@@ -1,5 +1,5 @@
-var exec = require('../helper/execPromise');
-var download = require('../helper/downloadPromise');
+var exec = require('../helpers/execPromise');
+var download = require('../helpers/downloadPromise');
 var File = require('../models/File.js');
 
 var DownloadController = function() {};
